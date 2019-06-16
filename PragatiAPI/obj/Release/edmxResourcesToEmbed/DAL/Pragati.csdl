@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PragatiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BillingAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="ShippingAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Vat" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Cst" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerType" Type="Int32" />
+  </EntityType>
+  <EntityType Name="InvoiceDetail">
+    <Key>
+      <PropertyRef Name="InvoiceDetailID" />
+    </Key>
+    <Property Name="InvoiceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceMasterID" Type="Int32" Nullable="false" />
+    <Property Name="Particular" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Length" Type="Double" Nullable="false" />
+    <Property Name="Width" Type="Double" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Rate" Type="Double" Nullable="false" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvoiceMaster">
+    <Key>
+      <PropertyRef Name="InvoiceID" />
+    </Key>
+    <Property Name="InvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="InvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OrderDate" Type="DateTime" Precision="3" />
+    <Property Name="ChallanNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
+    <Property Name="GrossTotal" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IsVat" Type="Boolean" Nullable="false" />
+    <Property Name="IsCST" Type="Boolean" Nullable="false" />
+    <Property Name="VatPercentage" Type="Double" Nullable="false" />
+    <Property Name="VatAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="AmountAfterVat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="DiscountPercentage" Type="Double" Nullable="false" />
+    <Property Name="DiscountAmount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="AmountAfterDiscount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="RoundOff" Type="Int32" Nullable="false" />
+    <Property Name="NetToal" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="BalAmount" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="PragatiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="InvoiceDetails" EntityType="Self.InvoiceDetail" />
+    <EntitySet Name="InvoiceMasters" EntityType="Self.InvoiceMaster" />
+    <EntitySet Name="PaymentDetails" EntityType="PragatiModel.PaymentDetail" />
+    <EntitySet Name="PaymentMasters" EntityType="PragatiModel.PaymentMaster" />
+    <EntitySet Name="CustomerTypes" EntityType="PragatiModel.CustomerType" />
+    <FunctionImport Name="sp_GetInvoiceDetails" ReturnType="Collection(PragatiModel.sp_GetInvoiceDetails_Result)">
+      <Parameter Name="invoiceid" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="PaymentDetail">
+    <Key>
+      <PropertyRef Name="PaymentDetailID" />
+    </Key>
+    <Property Name="PaymentDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaymentMasterID" Type="Int32" Nullable="false" />
+    <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+    <Property Name="ReceiveAmount" Type="Int32" Nullable="false" />
+    <Property Name="ReceiptDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Discount" Type="Int32" Nullable="false" />
+    <Property Name="BalAmount" Type="Int32" Nullable="false" />
+    <Property Name="Isdeleted" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaymentMaster">
+    <Key>
+      <PropertyRef Name="PaymentID" />
+    </Key>
+    <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="ChequeNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ChequeAmount" Type="Int32" Nullable="false" />
+    <Property Name="BankName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomerType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="sp_GetInvoiceDetails_Result">
+    <Property Type="Int64" Name="serialno" Nullable="true" />
+    <Property Type="String" Name="invoiceno" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="orderno" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="orderdate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="ChallanNo" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" Precision="23" />
+    <Property Type="Decimal" Name="GrossTotal" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Double" Name="VatPercentage" Nullable="false" />
+    <Property Type="Decimal" Name="AmountAfterVat" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Double" Name="DiscountPercentage" Nullable="false" />
+    <Property Type="Decimal" Name="AmountAfterDiscount" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="RoundOff" Nullable="false" />
+    <Property Type="Decimal" Name="NetToal" Nullable="false" Precision="18" Scale="0" />
+    <Property Type="String" Name="Particular" Nullable="false" MaxLength="1000" />
+    <Property Type="Double" Name="Length" Nullable="false" />
+    <Property Type="Double" Name="Width" Nullable="false" />
+    <Property Type="Double" Name="vtp" Nullable="false" />
+    <Property Type="Int32" Name="Qty" Nullable="false" />
+    <Property Type="Double" Name="Rate" Nullable="false" />
+    <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="BillingAddress" Nullable="true" MaxLength="1000" />
+    <Property Type="Decimal" Name="DiscountAmount" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="VatAmount" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="cuscst" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="cusvat" Nullable="true" MaxLength="20" />
+  </ComplexType>
+</Schema>
